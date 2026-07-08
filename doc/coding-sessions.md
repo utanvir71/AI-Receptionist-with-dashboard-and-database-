@@ -2,6 +2,29 @@
 
 Use this file to split the implementation across context windows. Each new context window should complete exactly one phase unless the user explicitly asks otherwise.
 
+## Session Status Tracker
+
+Allowed status values:
+
+- `done`
+- `next session`
+- `in queue`
+
+Current status:
+
+| Phase | Status | Notes |
+| --- | --- | --- |
+| Phase 1: MSSQL Backend Foundation And Vapi Storage Migration | `next session` | Start here in the next coding context window. |
+| Phase 2: Staff APIs, Walk-Ins, Reports, And Live Updates | `in queue` | Start only after Phase 1 is done and verified. |
+| Phase 3: Flutter Web Dashboard, Docker Compose, And Demo Readiness | `in queue` | Start only after Phase 2 is done and verified. |
+
+After finishing any phase, update this status tracker before ending the session:
+
+- Change the completed phase status to `done`.
+- Change the next phase status from `in queue` to `next session`.
+- Add a short note with the completion commit, test commands, and test result.
+- Do not mark a phase `done` while tests or lint are failing.
+
 At the start of each context window:
 
 1. Read `doc/project-plan.md`.
