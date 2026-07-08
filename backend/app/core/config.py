@@ -27,6 +27,11 @@ class Settings(BaseSettings):
     mssql_password: str = ""
     mssql_sa_password: str = ""
 
+    staff_password_hash: str = ""
+    session_secret_key: str = ""
+    demo_mode: bool = False
+    backup_dir: str = "backups"
+
     twilio_account_sid: str = ""
     twilio_auth_token: str = ""
     twilio_from_number: str = ""

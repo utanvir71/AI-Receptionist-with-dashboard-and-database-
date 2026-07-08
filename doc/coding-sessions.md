@@ -15,8 +15,8 @@ Current status:
 | Phase | Status | Notes |
 | --- | --- | --- |
 | Phase 1: MSSQL Backend Foundation And Vapi Storage Migration | `done` | Completed database foundation, Alembic migration, fixed resource seed, SQLAlchemy reservation store, and database-backed Vapi storage selection. Verification passed: `cd backend && .venv/bin/pytest -q`; `cd backend && .venv/bin/ruff check .`. Completion commit is this Phase 1 implementation commit. |
-| Phase 2: Staff APIs, Walk-Ins, Reports, And Live Updates | `next session` | Start here in the next coding context window. |
-| Phase 3: Flutter Web Dashboard, Docker Compose, And Demo Readiness | `in queue` | Start only after Phase 2 is done and verified. |
+| Phase 2: Staff APIs, Walk-Ins, Reports, And Live Updates | `done` | Completed shared staff auth, staff reservation lifecycle APIs, walk-ins, floor state, customer/follow-up/call-log/report APIs, demo reset, manual backup metadata, audit logs, optimistic concurrency, and WebSocket broadcasts. Verification passed: `cd backend && .venv/bin/pytest -q`; `cd backend && .venv/bin/ruff check .`. Completion commit is this Phase 2 implementation commit. No real Twilio SMS was sent during tests. |
+| Phase 3: Flutter Web Dashboard, Docker Compose, And Demo Readiness | `next session` | Start here in the next coding context window. |
 
 After finishing any phase, update this status tracker before ending the session:
 

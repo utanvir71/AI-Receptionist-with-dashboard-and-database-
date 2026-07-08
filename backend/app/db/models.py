@@ -116,6 +116,11 @@ class ReservationModel(Base):
     call_id: Mapped[str | None] = mapped_column(String(120), nullable=True, index=True)
     private_room_minimum_spend_krw: Mapped[int | None] = mapped_column(Integer, nullable=True)
     final_bill_krw: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    actual_seated_at: Mapped[datetime | None] = mapped_column(
+        DateTime(timezone=True),
+        nullable=True,
+    )
+    completed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
     status: Mapped[str] = mapped_column(String(40), default="confirmed", index=True)
     source: Mapped[str] = mapped_column(String(40), default="ai_call", index=True)
     version: Mapped[int] = mapped_column(Integer, default=1)
