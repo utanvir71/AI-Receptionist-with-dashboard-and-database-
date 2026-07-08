@@ -21,6 +21,12 @@ class Settings(BaseSettings):
     google_service_account_json: str = ""
     google_application_credentials: str = ""
 
+    database_url: str = ""
+    mssql_db: str = "ai_receptionist"
+    mssql_user: str = "ai_receptionist"
+    mssql_password: str = ""
+    mssql_sa_password: str = ""
+
     twilio_account_sid: str = ""
     twilio_auth_token: str = ""
     twilio_from_number: str = ""

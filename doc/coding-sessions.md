@@ -14,8 +14,8 @@ Current status:
 
 | Phase | Status | Notes |
 | --- | --- | --- |
-| Phase 1: MSSQL Backend Foundation And Vapi Storage Migration | `next session` | Start here in the next coding context window. |
-| Phase 2: Staff APIs, Walk-Ins, Reports, And Live Updates | `in queue` | Start only after Phase 1 is done and verified. |
+| Phase 1: MSSQL Backend Foundation And Vapi Storage Migration | `done` | Completed database foundation, Alembic migration, fixed resource seed, SQLAlchemy reservation store, and database-backed Vapi storage selection. Verification passed: `cd backend && .venv/bin/pytest -q`; `cd backend && .venv/bin/ruff check .`. Completion commit is this Phase 1 implementation commit. |
+| Phase 2: Staff APIs, Walk-Ins, Reports, And Live Updates | `next session` | Start here in the next coding context window. |
 | Phase 3: Flutter Web Dashboard, Docker Compose, And Demo Readiness | `in queue` | Start only after Phase 2 is done and verified. |
 
 After finishing any phase, update this status tracker before ending the session:

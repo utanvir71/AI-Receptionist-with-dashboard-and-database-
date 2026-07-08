@@ -15,6 +15,9 @@ dependencies = [
     "python-dotenv>=1.0.1",
     "google-api-python-client>=2.140.0",
     "google-auth>=2.34.0",
+    "sqlalchemy>=2.0.31",
+    "alembic>=1.13.2",
+    "pyodbc>=5.1.0",
     "twilio>=9.2.0",
 ]
 

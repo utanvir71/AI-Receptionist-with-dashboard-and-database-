@@ -9,7 +9,7 @@ from typing import Any, Protocol
 
 from app.core.config import Settings
 from app.schemas.reservations import ManagerFollowupRequest
-from app.services.calendar_service import ReservationRecord
+from app.services.reservation_store import ReservationRecord
 
 
 class ReservationNotifier(Protocol):

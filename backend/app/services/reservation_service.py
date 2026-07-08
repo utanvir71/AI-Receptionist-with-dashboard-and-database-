@@ -15,10 +15,10 @@ from app.schemas.reservations import (
     VapiToolResponse,
     VapiToolStatus,
 )
-from app.services.calendar_service import (
+from app.services.reservation_store import (
     CANCELLED_STATUS,
-    ReservationCalendar,
     ReservationRecord,
+    ReservationStore,
 )
 from app.services.notification_service import NoOpReservationNotifier, ReservationNotifier
 from app.services.resource_allocator import (
@@ -50,12 +50,12 @@ NEARBY_OPTION_OFFSETS = (
 
 
 class ReservationService:
-    """Coordinate validation, resource allocation, and calendar persistence."""
+    """Coordinate validation, resource allocation, and reservation persistence."""
 
     def __init__(
         self,
         *,
-        calendar: ReservationCalendar,
+        calendar: ReservationStore,
         notifier: ReservationNotifier | None = None,
         now_provider: Callable[[], datetime] | None = None,
     ) -> None:

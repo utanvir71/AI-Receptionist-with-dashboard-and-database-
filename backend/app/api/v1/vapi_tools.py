@@ -20,12 +20,13 @@ from app.schemas.reservations import (
     VapiToolResponse,
     VapiToolStatus,
 )
-from app.services.calendar_service import InMemoryCalendarService, build_google_calendar_service
+from app.services.database_reservation_store import build_database_reservation_store
 from app.services.notification_service import (
     build_manager_email_notifier,
     build_reservation_notifier,
 )
 from app.services.reservation_service import ReservationService
+from app.services.reservation_store import InMemoryReservationStore
 from app.utils.idempotency import IdempotencyCache
 
 
@@ -39,7 +40,7 @@ TModel = TypeVar("TModel")
 
 _response_cache = IdempotencyCache[VapiToolResponse]()
 _reservation_service: ReservationService | None = None
-_reservation_service_signature: tuple[str, str, str, str, str, str] | None = None
+_reservation_service_signature: tuple[str, str, str, str] | None = None
 
 
 @dataclass(frozen=True)
@@ -55,9 +56,7 @@ def get_reservation_service(settings: Settings = Depends(get_settings)) -> Reser
     global _reservation_service, _reservation_service_signature
 
     signature = (
-        settings.google_calendar_id,
-        settings.google_service_account_json,
-        settings.google_application_credentials,
+        settings.database_url,
         settings.twilio_account_sid,
         settings.twilio_auth_token,
         settings.twilio_from_number,
@@ -65,10 +64,10 @@ def get_reservation_service(settings: Settings = Depends(get_settings)) -> Reser
     if _reservation_service is not None and _reservation_service_signature == signature:
         return _reservation_service
 
-    if settings.google_calendar_id:
-        calendar = build_google_calendar_service(settings)
+    if settings.database_url:
+        calendar = build_database_reservation_store(settings)
     else:
-        calendar = InMemoryCalendarService()
+        calendar = InMemoryReservationStore()
 
     _reservation_service = ReservationService(
         calendar=calendar,
