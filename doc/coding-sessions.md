@@ -25,6 +25,23 @@ After finishing any phase, update this status tracker before ending the session:
 - Add a short note with the completion commit, test commands, and test result.
 - Do not mark a phase `done` while tests or lint are failing.
 
+## Prompt For A New Coding Session
+
+Use this prompt when starting a fresh context window:
+
+```text
+Read every file in the doc folder first:
+- doc/project-plan.md
+- doc/implementation-plan.md
+- doc/coding-sessions.md
+
+Then start the phase marked `next session` in doc/coding-sessions.md.
+Use a non-main branch.
+After coding, run the required tests and Ruff.
+If tests fail, fix and rerun until they pass.
+Before ending, update doc/coding-sessions.md status tracker, summarize changed files and test results, commit, and push.
+```
+
 At the start of each context window:
 
 1. Read `doc/project-plan.md`.
