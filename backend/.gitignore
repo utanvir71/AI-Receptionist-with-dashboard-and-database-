@@ -1,0 +1,52 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Local environment and secrets
+.env
+.env.*
+.env.example
+*.pem
+*.key
+*.crt
+secrets/
+credentials/
+
+# Logs and runtime files
+*.log
+logs/
+tmp/
+temp/
+*.sqlite3
+*.db
+
+# ngrok
+ngrok.yml
+ngrok.log
+
+# OS and editor files
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Codex / planning scratch
+.superpowers/
+
+# Build artifacts
+dist/
+build/
+*.egg-info/
+outputs/
