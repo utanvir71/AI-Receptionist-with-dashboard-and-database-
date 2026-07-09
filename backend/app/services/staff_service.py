@@ -10,7 +10,7 @@ from pathlib import Path
 from typing import Any
 
 from fastapi import WebSocket
-from sqlalchemy import delete, or_, select
+from sqlalchemy import delete, or_, select, true
 from sqlalchemy.orm import Session, joinedload, sessionmaker
 
 from app.db.models import (
@@ -55,6 +55,11 @@ NON_BLOCKING_STATUSES = {
     StaffReservationStatus.NO_SHOW.value,
 }
 MUTATION_ACTOR = "staff"
+
+
+def active_resource_clause() -> Any:
+    """Return an MSSQL-safe active-resource boolean comparison."""
+    return RestaurantResourceModel.is_active == true()
 
 
 class StaffServiceError(Exception):
@@ -429,7 +434,7 @@ class StaffService:
         with self._session_factory() as session:
             resources = session.scalars(
                 select(RestaurantResourceModel)
-                .where(RestaurantResourceModel.is_active.is_(True))
+                .where(active_resource_clause())
                 .order_by(RestaurantResourceModel.id)
             ).all()
             reservations = session.scalars(
@@ -805,7 +810,7 @@ class StaffService:
         resources = session.scalars(
             select(RestaurantResourceModel)
             .where(
-                RestaurantResourceModel.is_active.is_(True),
+                active_resource_clause(),
                 RestaurantResourceModel.resource_type.in_(resource_types),
                 RestaurantResourceModel.capacity >= party_size,
             )
@@ -841,9 +846,7 @@ class StaffService:
         resource_ids: tuple[str, ...],
     ) -> str:
         resource_set = set(resource_ids)
-        resources = session.scalars(
-            select(RestaurantResourceModel).where(RestaurantResourceModel.is_active.is_(True))
-        ).all()
+        resources = session.scalars(select(RestaurantResourceModel).where(active_resource_clause())).all()
         for resource in resources:
             if set(self._resource_members(session, resource.id)) == resource_set:
                 return resource.id

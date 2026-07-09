@@ -1,0 +1,106 @@
+services:
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    platform: linux/amd64
+    restart: unless-stopped
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_PID: Developer
+      MSSQL_SA_PASSWORD: ${MSSQL_SA_PASSWORD:-Change_this_local_sa_password_123!}
+    volumes:
+      - mssql-data:/var/opt/mssql
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P \"$${MSSQL_SA_PASSWORD}\" -C -Q \"SELECT 1\" >/dev/null 2>&1",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 30s
+
+  mssql-init:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    platform: linux/amd64
+    depends_on:
+      mssql:
+        condition: service_healthy
+    environment:
+      MSSQL_HOST: mssql
+      MSSQL_DB: ${MSSQL_DB:-ai_receptionist}
+      MSSQL_SA_PASSWORD: ${MSSQL_SA_PASSWORD:-Change_this_local_sa_password_123!}
+    volumes:
+      - ./deployment:/scripts:ro
+    entrypoint: ["/bin/bash", "/scripts/mssql-init.sh"]
+    command: []
+    restart: "no"
+
+  migrate:
+    build:
+      context: ./backend
+    platform: linux/amd64
+    depends_on:
+      mssql-init:
+        condition: service_completed_successfully
+    environment:
+      DATABASE_URL: ${DATABASE_URL:-mssql+pyodbc://sa:Change_this_local_sa_password_123!@mssql:1433/ai_receptionist?driver=ODBC+Driver+18+for+SQL+Server&TrustServerCertificate=yes}
+      MSSQL_DB: ${MSSQL_DB:-ai_receptionist}
+      MSSQL_SA_PASSWORD: ${MSSQL_SA_PASSWORD:-Change_this_local_sa_password_123!}
+    command: ["alembic", "upgrade", "head"]
+    restart: "no"
+
+  backend:
+    build:
+      context: ./backend
+    platform: linux/amd64
+    restart: unless-stopped
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    environment:
+      APP_ENV: ${APP_ENV:-production}
+      APP_TIMEZONE: ${APP_TIMEZONE:-Asia/Seoul}
+      PUBLIC_BASE_URL: ${PUBLIC_BASE_URL:-http://localhost:8080}
+      VAPI_TOOL_SECRET: ${VAPI_TOOL_SECRET:-local-vapi-secret}
+      VAPI_MANAGER_TRANSFER_NUMBER: ${VAPI_MANAGER_TRANSFER_NUMBER:-}
+      DATABASE_URL: ${DATABASE_URL:-mssql+pyodbc://sa:Change_this_local_sa_password_123!@mssql:1433/ai_receptionist?driver=ODBC+Driver+18+for+SQL+Server&TrustServerCertificate=yes}
+      MSSQL_DB: ${MSSQL_DB:-ai_receptionist}
+      MSSQL_SA_PASSWORD: ${MSSQL_SA_PASSWORD:-Change_this_local_sa_password_123!}
+      STAFF_PASSWORD_HASH: ${STAFF_PASSWORD_HASH:-}
+      SESSION_SECRET_KEY: ${SESSION_SECRET_KEY:-change-this-local-session-secret}
+      DEMO_MODE: ${DEMO_MODE:-true}
+      BACKUP_DIR: /app/backups
+      TWILIO_ACCOUNT_SID: ${TWILIO_ACCOUNT_SID:-}
+      TWILIO_AUTH_TOKEN: ${TWILIO_AUTH_TOKEN:-}
+      TWILIO_FROM_NUMBER: ${TWILIO_FROM_NUMBER:-}
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+    volumes:
+      - backend-backups:/app/backups
+    expose:
+      - "8000"
+
+  frontend:
+    build:
+      context: ./frontend
+    restart: unless-stopped
+    depends_on:
+      backend:
+        condition: service_started
+    ports:
+      - "${FRONTEND_PORT:-8080}:80"
+
+  ngrok:
+    image: ngrok/ngrok:latest
+    profiles: ["ngrok"]
+    restart: unless-stopped
+    depends_on:
+      frontend:
+        condition: service_started
+    environment:
+      NGROK_AUTHTOKEN: ${NGROK_AUTHTOKEN:-}
+    command: ["http", "frontend:80"]
+
+volumes:
+  mssql-data:
+  backend-backups:

@@ -18,6 +18,7 @@ from fastapi import (
     WebSocketDisconnect,
     status,
 )
+from sqlalchemy.orm import Session
 
 from app.core.config import Settings, get_settings
 from app.core.staff_auth import (
@@ -101,10 +102,9 @@ def get_staff_service(
     engine = get_engine(settings.database_url)
     if settings.database_url.startswith("sqlite"):
         Base.metadata.create_all(engine)
-        from sqlalchemy.orm import Session
 
-        with Session(engine) as session:
-            seed_restaurant_resources(session)
+    with Session(engine) as session:
+        seed_restaurant_resources(session)
 
     _staff_service = StaffService(
         session_factory=get_session_factory(settings.database_url),
