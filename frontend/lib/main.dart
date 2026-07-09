@@ -3,6 +3,22 @@ import 'dart:async';
 import 'package:ai_receptionist_dashboard/staff_api.dart';
 import 'package:flutter/material.dart';
 
+class AppColors {
+  static const ink = Color(0xFF26323B);
+  static const ink2 = Color(0xFFE9EDF1);
+  static const panel = Color(0xFFF6F8FA);
+  static const panel2 = Color(0xFFE4EAF0);
+  static const paper = Color(0xFFFFFFFF);
+  static const paper2 = Color(0xFFDDE5EC);
+  static const brass = Color(0xFF0D82B8);
+  static const ember = Color(0xFFE39A10);
+  static const jade = Color(0xFF20B95A);
+  static const sky = Color(0xFF8FCFE7);
+  static const muted = Color(0xFF6C7782);
+  static const line = Color(0xFFC7D1DA);
+  static const danger = Color(0xFFC73C36);
+}
+
 void main() {
   runApp(StaffDashboardApp(api: StaffApiClient()));
 }
@@ -61,27 +77,111 @@ class _StaffDashboardAppState extends State<StaffDashboardApp> {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         useMaterial3: true,
+        fontFamily: 'Avenir Next',
         colorScheme: const ColorScheme.light(
-          primary: Color(0xFF166B8F),
+          primary: AppColors.brass,
           onPrimary: Colors.white,
-          secondary: Color(0xFF2D8659),
+          secondary: AppColors.jade,
           onSecondary: Colors.white,
-          tertiary: Color(0xFFB96B14),
-          onTertiary: Colors.white,
-          surface: Color(0xFFF7F9FB),
-          onSurface: Color(0xFF1F2933),
-          error: Color(0xFFB3261E),
+          tertiary: AppColors.sky,
+          onTertiary: AppColors.ink,
+          surface: AppColors.panel,
+          onSurface: AppColors.ink,
+          error: AppColors.danger,
         ),
-        scaffoldBackgroundColor: const Color(0xFFF4F7FA),
+        scaffoldBackgroundColor: AppColors.ink2,
+        textTheme: Typography.blackMountainView.apply(
+          bodyColor: AppColors.ink,
+          displayColor: AppColors.ink,
+          fontFamily: 'Avenir Next',
+        ),
         cardTheme: CardThemeData(
           elevation: 0,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+          color: AppColors.panel,
+          surfaceTintColor: Colors.transparent,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+            side: const BorderSide(color: AppColors.line),
+          ),
         ),
         inputDecorationTheme: InputDecorationTheme(
           filled: true,
-          fillColor: Colors.white,
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+          fillColor: AppColors.paper,
+          labelStyle: const TextStyle(color: AppColors.muted),
+          prefixIconColor: AppColors.brass,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: const BorderSide(color: AppColors.line),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: const BorderSide(color: AppColors.line),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: const BorderSide(color: AppColors.brass, width: 1.6),
+          ),
           isDense: true,
+        ),
+        filledButtonTheme: FilledButtonThemeData(
+          style: FilledButton.styleFrom(
+            backgroundColor: AppColors.brass,
+            foregroundColor: Colors.white,
+            minimumSize: const Size(44, 44),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
+            textStyle: const TextStyle(fontWeight: FontWeight.w800),
+          ),
+        ),
+        outlinedButtonTheme: OutlinedButtonThemeData(
+          style: OutlinedButton.styleFrom(
+            foregroundColor: AppColors.brass,
+            minimumSize: const Size(44, 44),
+            side: const BorderSide(color: AppColors.line),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
+          ),
+        ),
+        textButtonTheme: TextButtonThemeData(
+          style: TextButton.styleFrom(
+            foregroundColor: AppColors.brass,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
+          ),
+        ),
+        iconButtonTheme: IconButtonThemeData(
+          style: IconButton.styleFrom(
+            foregroundColor: AppColors.ink,
+            minimumSize: const Size(44, 44),
+          ),
+        ),
+        chipTheme: const ChipThemeData(
+          backgroundColor: AppColors.paper,
+          selectedColor: AppColors.brass,
+          labelStyle: TextStyle(color: AppColors.ink),
+          side: BorderSide(color: AppColors.line),
+        ),
+        tabBarTheme: const TabBarThemeData(
+          labelColor: AppColors.brass,
+          unselectedLabelColor: AppColors.muted,
+          indicatorColor: AppColors.brass,
+        ),
+        dividerTheme: const DividerThemeData(color: AppColors.line),
+        dialogTheme: DialogThemeData(
+          backgroundColor: AppColors.panel,
+          surfaceTintColor: Colors.transparent,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        ),
+        dataTableTheme: const DataTableThemeData(
+          headingTextStyle: TextStyle(
+            color: AppColors.brass,
+            fontWeight: FontWeight.w800,
+          ),
+          dataTextStyle: TextStyle(color: AppColors.ink),
+          dividerThickness: 0.5,
         ),
       ),
       home: _authenticated
@@ -436,54 +536,52 @@ class _LoginScreenState extends State<_LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 420),
-          child: Card(
-            child: Padding(
-              padding: const EdgeInsets.all(24),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  const Icon(
-                    Icons.restaurant_menu_rounded,
-                    size: 48,
-                    color: Color(0xFF166B8F),
+      body: DecoratedBox(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [Color(0xFF067CB6), Color(0xFF0B8FC8), Color(0xFFE8EEF3)],
+          ),
+        ),
+        child: Stack(
+          children: [
+            const Positioned.fill(child: _HatchBackground()),
+            Align(
+              alignment: Alignment.center,
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 980),
+                child: Padding(
+                  padding: const EdgeInsets.all(28),
+                  child: LayoutBuilder(
+                    builder: (context, constraints) {
+                      final narrow = constraints.maxWidth < 760;
+                      final form = _LoginPanel(
+                        password: _password,
+                        loading: _loading,
+                        onSubmit: _submit,
+                      );
+                      const brand = _LoginBrandPanel();
+                      if (narrow) {
+                        return Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [brand, const SizedBox(height: 18), form],
+                        );
+                      }
+                      return Row(
+                        children: [
+                          const Expanded(child: brand),
+                          const SizedBox(width: 18),
+                          Expanded(child: form),
+                        ],
+                      );
+                    },
                   ),
-                  const SizedBox(height: 16),
-                  Text(
-                    'ABCD Steakhouse',
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  const SizedBox(height: 24),
-                  TextField(
-                    controller: _password,
-                    obscureText: true,
-                    decoration: const InputDecoration(
-                      labelText: 'Staff password',
-                      prefixIcon: Icon(Icons.lock_outline_rounded),
-                    ),
-                    onSubmitted: (_) => _submit(),
-                  ),
-                  const SizedBox(height: 16),
-                  FilledButton.icon(
-                    onPressed: _loading ? null : _submit,
-                    icon: _loading
-                        ? const SizedBox.square(
-                            dimension: 18,
-                            child: CircularProgressIndicator(strokeWidth: 2),
-                          )
-                        : const Icon(Icons.login_rounded),
-                    label: const Text('Sign In'),
-                  ),
-                ],
+                ),
               ),
             ),
-          ),
+          ],
         ),
       ),
     );
@@ -496,6 +594,226 @@ class _LoginScreenState extends State<_LoginScreen> {
       setState(() => _loading = false);
     }
   }
+}
+
+class _LoginBrandPanel extends StatelessWidget {
+  const _LoginBrandPanel();
+
+  @override
+  Widget build(BuildContext context) {
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: AppColors.paper.withValues(alpha: 0.92),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.72)),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(28),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const _BrandMark(size: 58),
+            const SizedBox(height: 30),
+            Text(
+              'ABCD Steakhouse',
+              style: Theme.of(context).textTheme.displaySmall?.copyWith(
+                fontWeight: FontWeight.w900,
+                letterSpacing: 0,
+                height: 0.95,
+              ),
+            ),
+            const SizedBox(height: 14),
+            const Text(
+              'Live floor operations, reservations, guests, and revenue in one staff console.',
+              style: TextStyle(color: AppColors.muted, height: 1.45),
+            ),
+            const SizedBox(height: 28),
+            const Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: [
+                _LoginSignal(
+                  icon: Icons.table_restaurant_rounded,
+                  label: '21 resources',
+                ),
+                _LoginSignal(icon: Icons.bolt_rounded, label: 'Live sync'),
+                _LoginSignal(
+                  icon: Icons.receipt_long_rounded,
+                  label: 'KRW reports',
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _LoginPanel extends StatelessWidget {
+  const _LoginPanel({
+    required this.password,
+    required this.loading,
+    required this.onSubmit,
+  });
+
+  final TextEditingController password;
+  final bool loading;
+  final VoidCallback onSubmit;
+
+  @override
+  Widget build(BuildContext context) {
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: AppColors.paper,
+        borderRadius: BorderRadius.circular(8),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.36),
+            blurRadius: 42,
+            offset: const Offset(0, 22),
+          ),
+        ],
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(28),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(
+              'Staff access',
+              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                color: AppColors.ink,
+                fontWeight: FontWeight.w900,
+              ),
+            ),
+            const SizedBox(height: 8),
+            const Text(
+              'Enter the shared dashboard password to open today\'s service floor.',
+              style: TextStyle(color: Color(0xFF5B6472), height: 1.45),
+            ),
+            const SizedBox(height: 28),
+            TextField(
+              controller: password,
+              obscureText: true,
+              style: const TextStyle(color: AppColors.ink),
+              decoration: const InputDecoration(
+                labelText: 'Staff password',
+                prefixIcon: Icon(Icons.lock_outline_rounded),
+              ),
+              onSubmitted: (_) => onSubmit(),
+            ),
+            const SizedBox(height: 18),
+            FilledButton.icon(
+              onPressed: loading ? null : onSubmit,
+              icon: loading
+                  ? const SizedBox.square(
+                      dimension: 18,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
+                  : const Icon(Icons.login_rounded),
+              label: const Text('Sign In'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _LoginSignal extends StatelessWidget {
+  const _LoginSignal({required this.icon, required this.label});
+
+  final IconData icon;
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: AppColors.panel,
+        border: Border.all(color: AppColors.line),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(icon, size: 16, color: AppColors.brass),
+            const SizedBox(width: 6),
+            Text(label, style: const TextStyle(color: AppColors.ink)),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _BrandMark extends StatelessWidget {
+  const _BrandMark({this.size = 38});
+
+  final double size;
+
+  @override
+  Widget build(BuildContext context) {
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: AppColors.paper,
+        border: Border.all(color: AppColors.line),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: SizedBox.square(
+        dimension: size,
+        child: Icon(
+          Icons.restaurant_menu_rounded,
+          color: AppColors.brass,
+          size: size * 0.56,
+        ),
+      ),
+    );
+  }
+}
+
+class _HatchBackground extends StatelessWidget {
+  const _HatchBackground();
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomPaint(painter: _HatchPainter());
+  }
+}
+
+class _HatchPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final linePaint = Paint()
+      ..color = Colors.white.withValues(alpha: 0.035)
+      ..strokeWidth = 1;
+    for (var x = -size.height; x < size.width; x += 28) {
+      canvas.drawLine(
+        Offset(x, size.height),
+        Offset(x + size.height, 0),
+        linePaint,
+      );
+    }
+    final glowPaint = Paint()
+      ..shader =
+          const RadialGradient(
+            colors: [Color(0x550072AA), Colors.transparent],
+          ).createShader(
+            Rect.fromCircle(
+              center: Offset(size.width * 0.76, size.height * 0.22),
+              radius: size.shortestSide * 0.55,
+            ),
+          );
+    canvas.drawRect(Offset.zero & size, glowPaint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
 
 class _DashboardHome extends StatelessWidget {
@@ -572,31 +890,47 @@ class _DashboardHome extends StatelessWidget {
             if (!liveConnected)
               Container(
                 width: double.infinity,
-                color: const Color(0xFFFFF2D7),
+                color: const Color(0xFF3A2D1B),
                 padding: const EdgeInsets.symmetric(
                   horizontal: 16,
                   vertical: 8,
                 ),
-                child: const Text(
-                  'Internet disconnected. Visible data may be stale.',
+                child: const Row(
+                  children: [
+                    Icon(Icons.wifi_off_rounded, color: AppColors.brass),
+                    SizedBox(width: 8),
+                    Text('Internet disconnected. Visible data may be stale.'),
+                  ],
                 ),
               ),
             if (error != null)
               Container(
                 width: double.infinity,
-                color: const Color(0xFFFDE8E6),
+                color: const Color(0xFF44201F),
                 padding: const EdgeInsets.symmetric(
                   horizontal: 16,
                   vertical: 8,
                 ),
-                child: Text(
-                  error!,
-                  style: const TextStyle(color: Color(0xFF8B1A12)),
+                child: Row(
+                  children: [
+                    const Icon(
+                      Icons.error_outline_rounded,
+                      color: AppColors.danger,
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        error!,
+                        style: const TextStyle(color: AppColors.paper),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             Expanded(
               child: Stack(
                 children: [
+                  const Positioned.fill(child: _HatchBackground()),
                   if (selectedSnapshot == null && loading)
                     const Center(child: CircularProgressIndicator())
                   else if (selectedSnapshot == null)
@@ -669,30 +1003,35 @@ class _TopBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: const Color(0xFF166B8F),
-      padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
+      width: double.infinity,
+      decoration: const BoxDecoration(
+        color: AppColors.brass,
+        border: Border(bottom: BorderSide(color: Color(0xFF086C9B))),
+      ),
+      padding: const EdgeInsets.fromLTRB(14, 12, 14, 12),
       child: Column(
         children: [
           Wrap(
-            spacing: 8,
-            runSpacing: 8,
+            spacing: 10,
+            runSpacing: 10,
             crossAxisAlignment: WrapCrossAlignment.center,
             children: [
               SizedBox(
-                width: 270,
+                width: 292,
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Icon(Icons.restaurant_rounded, color: Colors.white),
-                    const SizedBox(width: 10),
+                    const _BrandMark(size: 38),
+                    const SizedBox(width: 12),
                     Expanded(
                       child: Text(
                         'ABCD Steakhouse',
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w700,
+                          color: AppColors.paper,
+                          fontWeight: FontWeight.w900,
+                          letterSpacing: 0,
                         ),
                       ),
                     ),
@@ -709,9 +1048,7 @@ class _TopBar extends StatelessWidget {
                   liveConnected
                       ? Icons.cloud_done_rounded
                       : Icons.cloud_off_rounded,
-                  color: liveConnected
-                      ? const Color(0xFFBDECCB)
-                      : const Color(0xFFFFD8A8),
+                  color: liveConnected ? AppColors.jade : AppColors.brass,
                 ),
               ),
               IconButton(
@@ -760,12 +1097,17 @@ class _NavButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton.icon(
       style: TextButton.styleFrom(
-        foregroundColor: selected ? const Color(0xFF143E55) : Colors.white,
+        foregroundColor: selected ? AppColors.brass : Colors.white,
         backgroundColor: selected
-            ? Colors.white
-            : Colors.white.withValues(alpha: 0.14),
+            ? AppColors.paper
+            : Colors.white.withValues(alpha: 0.12),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+        side: BorderSide(
+          color: selected
+              ? AppColors.paper
+              : Colors.white.withValues(alpha: 0.28),
+        ),
+        padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 10),
       ),
       onPressed: onPressed,
       icon: Icon(item.icon, size: 18),
@@ -784,8 +1126,9 @@ class _DateButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return OutlinedButton.icon(
       style: OutlinedButton.styleFrom(
-        foregroundColor: Colors.white,
-        side: const BorderSide(color: Colors.white54),
+        foregroundColor: AppColors.paper,
+        backgroundColor: AppColors.paper.withValues(alpha: 0.06),
+        side: const BorderSide(color: AppColors.line),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       ),
       onPressed: () async {
@@ -815,8 +1158,9 @@ class _TimeButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return OutlinedButton.icon(
       style: OutlinedButton.styleFrom(
-        foregroundColor: Colors.white,
-        side: const BorderSide(color: Colors.white54),
+        foregroundColor: AppColors.paper,
+        backgroundColor: AppColors.paper.withValues(alpha: 0.06),
+        side: const BorderSide(color: AppColors.line),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       ),
       onPressed: () async {
@@ -992,7 +1336,7 @@ class FloorTab extends StatelessWidget {
             ),
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
+                padding: const EdgeInsets.fromLTRB(14, 14, 14, 14),
                 child: _FloorMap(
                   resources: snapshot.floor.resources,
                   dailyRevenue: intMetric(report.metrics['revenue_krw']),
@@ -1033,10 +1377,10 @@ class _ReservationRail extends StatelessWidget {
   Widget build(BuildContext context) {
     if (collapsed) {
       return Material(
-        color: Colors.white,
+        color: AppColors.ink2,
         child: DecoratedBox(
           decoration: const BoxDecoration(
-            border: Border(right: BorderSide(color: Color(0xFFD6E0E8))),
+            border: Border(right: BorderSide(color: AppColors.line)),
           ),
           child: Column(
             children: [
@@ -1050,7 +1394,10 @@ class _ReservationRail extends StatelessWidget {
                 quarterTurns: 3,
                 child: Text(
                   'Reservations',
-                  style: TextStyle(fontWeight: FontWeight.w700),
+                  style: TextStyle(
+                    fontWeight: FontWeight.w800,
+                    color: AppColors.ink,
+                  ),
                 ),
               ),
             ],
@@ -1060,23 +1407,26 @@ class _ReservationRail extends StatelessWidget {
     }
 
     return Material(
-      color: Colors.white,
+      color: AppColors.ink2,
       child: DecoratedBox(
         decoration: const BoxDecoration(
-          border: Border(right: BorderSide(color: Color(0xFFD6E0E8))),
+          border: Border(right: BorderSide(color: AppColors.line)),
         ),
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.all(12),
+              padding: const EdgeInsets.fromLTRB(14, 14, 10, 12),
               child: Row(
                 children: [
-                  const Icon(Icons.event_available_rounded),
+                  const Icon(
+                    Icons.event_available_rounded,
+                    color: AppColors.brass,
+                  ),
                   const SizedBox(width: 8),
                   Text(
                     'Today',
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.w700,
+                      fontWeight: FontWeight.w900,
                     ),
                   ),
                   const Spacer(),
@@ -1164,13 +1514,29 @@ class _ReservationGroup extends StatelessWidget {
     return ExpansionTile(
       initiallyExpanded: title == 'Upcoming' || title == 'Seated',
       tilePadding: const EdgeInsets.symmetric(horizontal: 14),
+      iconColor: AppColors.brass,
+      collapsedIconColor: AppColors.muted,
       title: Row(
         children: [
-          Text(title, style: const TextStyle(fontWeight: FontWeight.w700)),
+          Text(title, style: const TextStyle(fontWeight: FontWeight.w900)),
           const SizedBox(width: 8),
-          Text(
-            '${reservations.length}',
-            style: const TextStyle(color: Color(0xFF637083)),
+          DecoratedBox(
+            decoration: BoxDecoration(
+              color: AppColors.brass.withValues(alpha: 0.14),
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(color: AppColors.brass.withValues(alpha: 0.4)),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
+              child: Text(
+                '${reservations.length}',
+                style: const TextStyle(
+                  color: AppColors.brass,
+                  fontWeight: FontWeight.w800,
+                  fontSize: 12,
+                ),
+              ),
+            ),
           ),
         ],
       ),
@@ -1247,93 +1613,106 @@ class _FloorMap extends StatelessWidget {
       'room_1': const Rect.fromLTWH(0.68, 0.77, 0.12, 0.13),
       'table_2': const Rect.fromLTWH(0.86, 0.28, 0.10, 0.12),
       'table_1': const Rect.fromLTWH(0.86, 0.12, 0.10, 0.12),
-      'table_1_2': const Rect.fromLTWH(0.84, 0.12, 0.13, 0.28),
-      'room_1_2': const Rect.fromLTWH(0.55, 0.77, 0.25, 0.13),
+      'tables_1_2': const Rect.fromLTWH(0.74, 0.26, 0.11, 0.16),
+      'rooms_1_2': const Rect.fromLTWH(0.55, 0.66, 0.25, 0.10),
     };
 
     return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(14),
-        child: Column(
-          children: [
-            Wrap(
-              spacing: 8,
-              runSpacing: 8,
-              crossAxisAlignment: WrapCrossAlignment.center,
-              children: [
-                Text(
-                  'Floor',
-                  style: Theme.of(
-                    context,
-                  ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700),
-                ),
-                _LegendChip(
-                  label: 'Empty',
-                  color: Colors.white,
-                  border: const Color(0xFFB9C6D2),
-                ),
-                _LegendChip(
-                  label: 'Occupied',
-                  color: const Color(0xFFDBF5E5),
-                  border: const Color(0xFF7CC89D),
-                ),
-                _LegendChip(
-                  label: 'Next',
-                  color: const Color(0xFFE0F2FE),
-                  border: const Color(0xFF77B8D8),
-                ),
-                Chip(
-                  avatar: const Icon(Icons.payments_rounded),
-                  label: Text(formatKrw(dailyRevenue)),
-                ),
-                OutlinedButton.icon(
-                  onPressed: resources.isEmpty
-                      ? null
-                      : () => onCreateWalkIn(resources.first),
-                  icon: const Icon(Icons.chair_alt_rounded),
-                  label: const Text('Seat Walk-in'),
-                ),
-                FilledButton.icon(
-                  onPressed: () => onCreateReservation(),
-                  icon: const Icon(Icons.add_rounded),
-                  label: const Text('New Reservation'),
-                ),
-              ],
-            ),
-            const SizedBox(height: 14),
-            Expanded(
-              child: LayoutBuilder(
-                builder: (context, constraints) {
-                  final width = constraints.maxWidth;
-                  final height = constraints.maxHeight;
-                  return DecoratedBox(
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFF8FAFC),
-                      border: Border.all(color: const Color(0xFFD7E2EA)),
-                      borderRadius: BorderRadius.circular(8),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          gradient: const LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [AppColors.paper, AppColors.panel],
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            children: [
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                children: [
+                  Text(
+                    'Floor',
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      fontWeight: FontWeight.w900,
                     ),
-                    child: Stack(
-                      children: [
-                        const Positioned.fill(child: _FloorGrid()),
-                        for (var i = 0; i < resources.length; i++)
-                          _PositionedResourceTile(
-                            resource: resources[i],
-                            fallbackIndex: i,
-                            position: positions[resources[i].id],
-                            width: width,
-                            height: height,
-                            onCreateReservation: onCreateReservation,
-                            onCreateWalkIn: onCreateWalkIn,
-                            onStatusAction: onStatusAction,
-                            onEditReservation: onEditReservation,
-                          ),
-                      ],
+                  ),
+                  _LegendChip(
+                    label: 'Empty',
+                    color: AppColors.ink2,
+                    border: AppColors.line,
+                  ),
+                  _LegendChip(
+                    label: 'Occupied',
+                    color: AppColors.jade.withValues(alpha: 0.2),
+                    border: AppColors.jade,
+                  ),
+                  _LegendChip(
+                    label: 'Next',
+                    color: AppColors.sky.withValues(alpha: 0.2),
+                    border: AppColors.sky,
+                  ),
+                  Chip(
+                    avatar: const Icon(
+                      Icons.payments_rounded,
+                      color: AppColors.brass,
                     ),
-                  );
-                },
+                    label: Text(formatKrw(dailyRevenue)),
+                  ),
+                  OutlinedButton.icon(
+                    onPressed: resources.isEmpty
+                        ? null
+                        : () => onCreateWalkIn(resources.first),
+                    icon: const Icon(Icons.chair_alt_rounded),
+                    label: const Text('Seat Walk-in'),
+                  ),
+                  FilledButton.icon(
+                    onPressed: () => onCreateReservation(),
+                    icon: const Icon(Icons.add_rounded),
+                    label: const Text('New Reservation'),
+                  ),
+                ],
               ),
-            ),
-          ],
+              const SizedBox(height: 14),
+              Expanded(
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    final width = constraints.maxWidth;
+                    final height = constraints.maxHeight;
+                    return DecoratedBox(
+                      decoration: BoxDecoration(
+                        color: AppColors.paper,
+                        border: Border.all(color: AppColors.line),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Stack(
+                        children: [
+                          const Positioned.fill(child: _FloorGrid()),
+                          for (var i = 0; i < resources.length; i++)
+                            _PositionedResourceTile(
+                              resource: resources[i],
+                              fallbackIndex: i,
+                              position: positions[resources[i].id],
+                              width: width,
+                              height: height,
+                              onCreateReservation: onCreateReservation,
+                              onCreateWalkIn: onCreateWalkIn,
+                              onStatusAction: onStatusAction,
+                              onEditReservation: onEditReservation,
+                            ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -1353,7 +1732,7 @@ class _FloorGridPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = const Color(0xFFE7EEF4)
+      ..color = AppColors.line.withValues(alpha: 0.42)
       ..strokeWidth = 1;
     for (var x = 0.0; x < size.width; x += 48) {
       canvas.drawLine(Offset(x, 0), Offset(x, size.height), paint);
@@ -1457,15 +1836,15 @@ class ResourceTile extends StatelessWidget {
         resource.currentReservation != null || resource.status == 'occupied';
     final hasNext = !occupied && resource.nextReservation != null;
     final background = occupied
-        ? const Color(0xFFDBF5E5)
+        ? AppColors.jade.withValues(alpha: 0.22)
         : hasNext
-        ? const Color(0xFFE0F2FE)
-        : Colors.white;
+        ? AppColors.sky.withValues(alpha: 0.22)
+        : AppColors.panel2;
     final border = occupied
-        ? const Color(0xFF58A878)
+        ? AppColors.jade
         : hasNext
-        ? const Color(0xFF6DA9CB)
-        : const Color(0xFFB7C5D1);
+        ? AppColors.sky
+        : AppColors.line;
 
     return Tooltip(
       message: resource.label,
@@ -1511,6 +1890,7 @@ class ResourceTile extends StatelessWidget {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
+                        color: AppColors.ink,
                         fontWeight: FontWeight.w800,
                         fontSize: 12,
                       ),
@@ -1522,7 +1902,7 @@ class ResourceTile extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                         fontSize: 10,
-                        color: Color(0xFF536171),
+                        color: AppColors.muted,
                       ),
                     ),
                     if (reservation != null) ...[
@@ -1532,6 +1912,7 @@ class ResourceTile extends StatelessWidget {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
+                          color: AppColors.ink,
                           fontWeight: FontWeight.w700,
                           fontSize: 10,
                         ),
@@ -1540,7 +1921,10 @@ class ResourceTile extends StatelessWidget {
                         reservation.customerName,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(fontSize: 10),
+                        style: const TextStyle(
+                          color: AppColors.muted,
+                          fontSize: 10,
+                        ),
                       ),
                     ],
                   ],
@@ -1664,7 +2048,7 @@ class ReservationTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Colors.white,
+      color: AppColors.paper,
       child: Padding(
         padding: EdgeInsets.all(compact ? 10 : 14),
         child: Column(
@@ -1678,10 +2062,16 @@ class ReservationTile extends StatelessWidget {
                   child: Text(
                     reservation.customerName,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(fontWeight: FontWeight.w800),
+                    style: const TextStyle(
+                      color: AppColors.ink,
+                      fontWeight: FontWeight.w900,
+                    ),
                   ),
                 ),
-                Text(formatTime(reservation.reservationStart)),
+                Text(
+                  formatTime(reservation.reservationStart),
+                  style: const TextStyle(color: AppColors.brass),
+                ),
               ],
             ),
             const SizedBox(height: 6),
@@ -1689,7 +2079,7 @@ class ReservationTile extends StatelessWidget {
               '${reservation.partySize} guests · ${reservation.phone}',
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: const TextStyle(color: Color(0xFF536171)),
+              style: const TextStyle(color: AppColors.muted),
             ),
             if (!compact && reservation.notes != null) ...[
               const SizedBox(height: 6),
@@ -2035,9 +2425,13 @@ class _CalendarBoard extends StatelessWidget {
                     builder: (context, candidate, rejected) => DecoratedBox(
                       decoration: BoxDecoration(
                         color: candidate.isEmpty
-                            ? Colors.white
-                            : const Color(0xFFE8F5EE),
-                        border: Border.all(color: const Color(0xFFD7E2EA)),
+                            ? AppColors.ink2
+                            : AppColors.jade.withValues(alpha: 0.18),
+                        border: Border.all(
+                          color: candidate.isEmpty
+                              ? AppColors.line
+                              : AppColors.jade,
+                        ),
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Column(
@@ -2111,8 +2505,8 @@ class _CalendarReservationCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: const Color(0xFFE0F2FE),
-        border: Border.all(color: const Color(0xFF77B8D8)),
+        color: AppColors.sky.withValues(alpha: 0.2),
+        border: Border.all(color: AppColors.sky),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Padding(
@@ -2131,7 +2525,7 @@ class _CalendarReservationCard extends StatelessWidget {
             ),
             Text(
               '${reservation.partySize} guests',
-              style: const TextStyle(color: Color(0xFF536171)),
+              style: const TextStyle(color: AppColors.muted),
             ),
           ],
         ),
@@ -3020,12 +3414,12 @@ class _StatusDot extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final color = switch (status) {
-      'confirmed' => const Color(0xFF2B7BBB),
-      'seated' => const Color(0xFF2D8659),
-      'completed' => const Color(0xFF6B7280),
-      'cancelled' => const Color(0xFFB3261E),
-      'no_show' => const Color(0xFFB96B14),
-      _ => const Color(0xFF6B7280),
+      'confirmed' => AppColors.sky,
+      'seated' => AppColors.jade,
+      'completed' => AppColors.muted,
+      'cancelled' => AppColors.danger,
+      'no_show' => AppColors.brass,
+      _ => AppColors.muted,
     };
     return Container(
       width: 12,
